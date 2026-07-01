@@ -6,11 +6,11 @@ on:
 
   # 🎉 Start only after the Army Preparation Mission succeeds
   workflow_run:
-    workflows: [ "CI- Devops AI Tool"]
+    workflows: [ "Prepare Army against Kirmada" ]
 
     types:
 
-      - Prepare Army against Kirmada
+      - completed
 
 jobs:
 
@@ -18,7 +18,7 @@ jobs:
 
     name: Deploy the Victory Fortress to Dholakpur
 
-    runs-on: ubuntu:latest
+    runs-on: ubuntu-latest
 
     # 🏆 Continue only if Bheem defeated Kirmada
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
@@ -48,7 +48,7 @@ jobs:
 
           run-id: ${{ github.event.workflow_run.id }}
 
-          github-action: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       # 👀 Bheem checks the treasure
       - name: Inspect Sacred Treasure

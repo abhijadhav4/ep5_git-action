@@ -19,7 +19,7 @@ jobs:
   tests:
 
     # 🏰 Bheem uses his own Battle Fort
-    runs-on: ubuntu:latest
+    runs-on: ubuntu-latest
 
     steps:
 

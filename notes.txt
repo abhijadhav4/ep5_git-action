@@ -68,10 +68,11 @@ battle-start:
 
   # 🎉 Start only after the Army Preparation Mission succeeds
   after-victory:
+    workflows: [ "Prepare Army against Kirmada" ] 
 
     completed-battle:
 
-      - Prepare Army against Kirmada
+      - Prepared
 
 battle-missions:
 
