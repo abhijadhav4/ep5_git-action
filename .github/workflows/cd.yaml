@@ -1,0 +1,61 @@
+# 🏆 Chhota Bheem deploys the Victory Fortress
+
+name: Deploy Victory Fortress to Dholakpur
+
+on:
+
+  # 🎉 Start only after the Army Preparation Mission succeeds
+  workflow_run:
+    workflows: [ "CI- Devops AI Tool"]
+
+    types:
+
+      - Prepare Army against Kirmada
+
+jobs:
+
+  deploy:
+
+    name: Deploy the Victory Fortress to Dholakpur
+
+    runs-on: ubuntu:latest
+
+    # 🏆 Continue only if Bheem defeated Kirmada
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+
+      # 👑 King Indraverma prepares the kingdom
+      - name: Prepare the Kingdom
+
+        run: sudo apt update -y
+
+      # ⚔️ Kalia installs all royal weapons
+      - name: Install Battle Weapons
+
+        run: sudo apt install nodejs npm -y
+
+      # 🐒 Jaggu brings the Sacred Battle Treasure
+      - name: Bring Sacred Battle Treasure
+
+        uses: actions/download-artifact@v4
+
+        with:
+
+          name: app-artifact
+
+          path: ./app-artifact
+
+          run-id: ${{ github.event.workflow_run.id }}
+
+          github-action: ${{ secrets.GITHUB_TOKEN }}
+
+      # 👀 Bheem checks the treasure
+      - name: Inspect Sacred Treasure
+
+        run: ls ./app-artifact
+
+      # 🎉 Soldiers celebrate victory
+      - name: Dholakpur is Safe
+
+        run: echo "🎉 Victory! The Battle Fortress has been successfully deployed inside Dholakpur."

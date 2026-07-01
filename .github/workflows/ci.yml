@@ -1,0 +1,58 @@
+# ⚔️ Chhota Bheem prepares the Royal Army
+
+name: Prepare Army against Kirmada
+
+on:
+
+  # 👹 Kirmada attacks Dholakpur
+  push:
+    branches:
+      - ci-branch
+
+  # 🤝 New warriors request to join Bheem's army
+  pull_request:
+    branches:
+      - ci-branch
+
+jobs:
+
+  tests:
+
+    # 🏰 Bheem uses his own Battle Fort
+    runs-on: ubuntu:latest
+
+    steps:
+
+      # 🐒 Jaggu brings the latest battle plans
+      - name: Collect Kingdom Battle Plans
+        uses: actions/checkout@v4
+
+      # ⚔️ Kalia prepares magical weapons
+      - name: Prepare Battle Weapons
+        uses: actions/setup-node@v4
+
+        with:
+          node-version: "24"
+
+      # 🍲 Chutki gathers battle supplies
+      - name: Gather Battle Supplies
+        run: npm install
+
+      # 💪 Bheem trains the Royal Army
+      - name: Train the Army
+        run: npm test
+
+      # 🏗️ Dholu & Bholu build the Battle Fortress
+      - name: Build Battle Fortress
+        run: npm run build
+
+      # 📦 Jaggu stores the completed fortress
+      - name: Store Sacred Battle Treasure
+
+        uses: actions/upload-artifact@v4
+
+        with:
+
+          name: app-artifact
+
+          path: dist/

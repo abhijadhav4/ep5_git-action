@@ -1,0 +1,148 @@
+# ⚔️ Chhota Bheem prepares the Royal Army
+
+battle-name: Prepare Army against Kirmada
+
+battle-start:
+
+  # 👹 Kirmada attacks Dholakpur
+  kirmada-attack:
+    kingdoms:
+      - ci-branch
+
+  # 🤝 New warriors request to join Bheem's army
+  warrior-request:
+    kingdoms:
+      - ci-branch
+
+battle-missions:
+
+  prepare-army:
+
+    # 🏰 Bheem uses his own Battle Fort
+    battle-fort: self-hosted
+
+    battle-steps:
+
+      # 🐒 Jaggu brings the latest battle plans
+      - mission-name: Collect Kingdom Battle Plans
+        royal-helper: actions/checkout@v4
+
+      # ⚔️ Kalia prepares magical weapons
+      - mission-name: Prepare Battle Weapons
+        royal-helper: actions/setup-node@v4
+
+        weapon-room:
+          weapon-version: "18"
+
+      # 🍲 Chutki gathers battle supplies
+      - mission-name: Gather Battle Supplies
+        bheem-command: npm install
+
+      # 💪 Bheem trains the Royal Army
+      - mission-name: Train the Army
+        bheem-command: npm test
+
+      # 🏗️ Dholu & Bholu build the Battle Fortress
+      - mission-name: Build Battle Fortress
+        bheem-command: npm run build
+
+      # 📦 Jaggu stores the completed fortress
+      - mission-name: Store Sacred Battle Treasure
+
+        royal-helper: actions/upload-artifact@v4
+
+        treasure-room:
+
+          treasure-name: app-artifact
+
+          treasure-location: dist/
+
+
+
+
+# 🏆 Chhota Bheem deploys the Victory Fortress
+
+battle-name: Deploy Victory Fortress to Dholakpur
+
+battle-start:
+
+  # 🎉 Start only after the Army Preparation Mission succeeds
+  after-victory:
+
+    completed-battle:
+
+      - Prepare Army against Kirmada
+
+battle-missions:
+
+  deploy-fortress:
+
+    mission-name: Deploy the Victory Fortress to Dholakpur
+
+    battle-fort: self-hosted
+
+    # 🏆 Continue only if Bheem defeated Kirmada
+    battle-condition: Victory
+
+    battle-steps:
+
+      # 👑 King Indraverma prepares the kingdom
+      - mission-name: Prepare the Kingdom
+
+        bheem-command: sudo apt update -y
+
+      # ⚔️ Kalia installs all royal weapons
+      - mission-name: Install Battle Weapons
+
+        bheem-command: sudo apt install nodejs npm -y
+
+      # 🐒 Jaggu brings the Sacred Battle Treasure
+      - mission-name: Bring Sacred Battle Treasure
+
+        royal-helper: actions/download-artifact@v4
+
+        treasure-room:
+
+          treasure-name: app-artifact
+
+          treasure-location: ./app-artifact
+
+          victory-mission-id: previous-battle-id
+
+          royal-permission: kingdom-secret-scroll
+
+      # 👀 Bheem checks the treasure
+      - mission-name: Inspect Sacred Treasure
+
+        bheem-command: ls ./app-artifact
+
+      # 🎉 Soldiers celebrate victory
+      - mission-name: Dholakpur is Safe
+
+        bheem-command: echo "🎉 Victory! The Battle Fortress has been successfully deployed inside Dholakpur."
+
+
+
+# 🏰 Start with the Royal Weapon Store
+FROM node:18-alpine
+
+# 🏕️ Create Bheem's Battle Camp
+BATTLE_CAMP /app
+
+# 📜 Bring the Mission Instructions
+COPY battle-plan*.json ./
+
+# ⚔️ Prepare all Battle Weapons
+RUN npm ci --only=production
+
+# 🛡️ Bring all Soldiers into the Camp
+COPY soldiers/ ./soldiers/
+
+# 👦 Only Bheem can command the army
+COMMANDER bheem
+
+# 🚪 Open the Battle Gate
+OPEN_GATE 3000
+
+# 🚀 Start the Final Battle
+START_BATTLE ["node","soldiers/app.js"]
